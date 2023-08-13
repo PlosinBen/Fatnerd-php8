@@ -1,0 +1,11 @@
+@import "basic.pcss";
+@import "button.pcss";
+@import "form.pcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+}
