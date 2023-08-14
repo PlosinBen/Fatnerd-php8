@@ -28,6 +28,9 @@ class LoginRequest extends FormRequest
             ],
             'password' => [
                 'required'
+            ],
+            'path' => [
+                'string'
             ]
         ];
     }

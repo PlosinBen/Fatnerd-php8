@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\Controller::class, 'index'])->name('index');
 
-Route::resource('login', \App\Http\Controllers\LoginController::class)->only('index', 'store');
+Route::middleware(['guest'])->resource('login', \App\Http\Controllers\LoginController::class)->only('index', 'store');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\Controller::class, 'index'])->name('index');
+});
+
