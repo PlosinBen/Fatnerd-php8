@@ -11,11 +11,9 @@ class InvestAccountController
 {
     public function index(InvestService $investService)
     {
-//        dd(
-//            $investService->getAccountList()
-//        );
-
-        return Inertia::render('InvestAccount/Index');
+        return Inertia::render('InvestAccount/Index', [
+            'accountPaginatedList' => $investService->getAccountList()
+        ]);
     }
 
     public function create()
