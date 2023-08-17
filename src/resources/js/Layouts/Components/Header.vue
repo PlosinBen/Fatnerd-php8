@@ -1,5 +1,5 @@
 <script setup>
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
         </section>
         <section>
             <button type="button">
-                <FontAwesomeIcon icon="bars"/>
+                <slot></slot>
             </button>
         </section>
     </header>

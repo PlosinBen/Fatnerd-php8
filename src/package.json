@@ -20,7 +20,6 @@
         "@fortawesome/free-solid-svg-icons": "^6.4.2",
         "@fortawesome/vue-fontawesome": "^3.0.3",
         "@inertiajs/inertia": "^0.11.1",
-        "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/vue3": "^1.0.10",
         "@vitejs/plugin-vue": "^4.2.3",
         "vue": "^3.3.4"

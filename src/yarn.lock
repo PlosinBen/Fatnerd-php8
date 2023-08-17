@@ -170,14 +170,6 @@
     nprogress "^0.2.0"
     qs "^6.9.0"
 
-"@inertiajs/inertia-vue3@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue3/-/inertia-vue3-0.6.0.tgz#faabe590e5d7091ae6c54fc30da6c65ea3937222"
-  integrity sha512-qhPBtd/G0VS7vVVbYw1rrqKB6JqRusxqt+5ec2GLmK6t7fTlBBnZ3KsakmGZLSM1m1OGkNcfn4ifmCk3zfA8RQ==
-  dependencies:
-    lodash.clonedeep "^4.5.0"
-    lodash.isequal "^4.5.0"
-
 "@inertiajs/inertia@^0.11.1":
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.11.1.tgz#f324f09a03e1dd944404bd09935c0141a4b3a85d"

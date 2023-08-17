@@ -1,21 +1,38 @@
 <script setup>
-import route from "../../../../vendor/tightenco/ziggy/src/js/index.js";
+import {route} from "@/helper/index.js";
+import {Link} from "@inertiajs/vue3";
 </script>
 
 <template>
     <aside>
         <nav>
-            <h5>123</h5>
+            <h5>投資</h5>
             <ul>
                 <li>{{ route("index") }}</li>
-                <li>2</li>
-                <li>3</li>
+                <li>
+                    帳務明細
+                </li>
+                <li>月對帳單</li>
                 <li>4</li>
             </ul>
-            <h5>123</h5>
+
+            <h5>投資管理</h5>
             <ul>
-                <li>BBBBBBB</li>
-                <li class="active">AAAAAAA</li>
+                <li>
+                    分配明細
+                </li>
+                <li>
+                    <Link :href="route('invest.account.index')">投資帳號</Link>
+                </li>
+                <li>
+                    海期對帳單
+                </li>
+            </ul>
+
+            <h5>記帳</h5>
+            <ul>
+                <li>帳本</li>
+                <li class="active">消費統計</li>
                 <li>CCCCCC</li>
                 <li>DDDDD</li>
             </ul>
@@ -25,7 +42,7 @@ import route from "../../../../vendor/tightenco/ziggy/src/js/index.js";
 
 <style scoped lang="postcss">
 aside {
-    @apply mx-3 my-1 text-sm;
+    @apply px-4 py-2 text-sm;
 
     nav {
         h5 {
@@ -34,10 +51,14 @@ aside {
 
         li {
             @apply py-1 pl-4 border-l border-gray-700;
+        }
+    }
 
-            &.active {
-                @apply font-medium text-sky-400 border-sky-400;
-            }
+    a {
+        @apply inline-block w-full;
+
+        &:hover {
+            @apply text-gray-300 border-gray-300;
         }
     }
 }

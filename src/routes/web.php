@@ -18,5 +18,9 @@ Route::middleware(['guest'])->resource('login', \App\Http\Controllers\LoginContr
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\Controller::class, 'index'])->name('index');
+
+    Route::prefix('invest')->as('invest.')->group(function () {
+        Route::resource('account', \App\Http\Controllers\InvestAccountController::class);
+    });
 });
 

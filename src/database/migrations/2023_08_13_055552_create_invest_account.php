@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('invest_account', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')
+                ->nullable();
             $table->string('alias');
 
             $table->datetime('updated_at');

@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class LoginRequest extends FormRequest
+/**
+ * @property-read string $alias
+ */
+class InvestAccountStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +25,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'account' => [
-                'required'
-            ],
-            'password' => [
-                'required'
-            ],
-            'path' => [
-                'nullable',
-                'string'
+            'alias' => [
+                'required',
             ]
         ];
     }
