@@ -20,7 +20,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\Controller::class, 'index'])->name('index');
 
     Route::prefix('invest')->as('invest.')->group(function () {
-        Route::resource('account', \App\Http\Controllers\InvestAccountController::class);
+        Route::resource('account', \App\Http\Controllers\InvestAccountController::class)->only('index', 'store');
+        Route::resource('futures', \App\Http\Controllers\InvestFuturesController::class);
     });
 });
 

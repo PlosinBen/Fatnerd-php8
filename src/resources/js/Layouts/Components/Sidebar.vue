@@ -19,10 +19,13 @@ import {Link} from "@inertiajs/vue3";
             <h5>投資管理</h5>
             <ul>
                 <li>
+                    <Link :href="route('invest.account.index')">投資帳號</Link>
+                </li>
+                <li>
                     分配明細
                 </li>
                 <li>
-                    <Link :href="route('invest.account.index')">投資帳號</Link>
+                    <Link :href="route('invest.futures.index')">期貨對帳單</Link>
                 </li>
                 <li>
                     海期對帳單
