@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InvestFuturesStoreRequest;
+use App\Http\Resources\InvestStatementFuturesResource;
 use App\Service\StatementService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,7 +14,9 @@ class InvestFuturesController
     public function index(StatementService $statementService)
     {
         return Inertia::render('InvestFutures/Index', [
-            'futuresPaginatedList' => $statementService->getFuturesList()
+            'futuresPaginatedList' => InvestStatementFuturesResource::collection(
+                $statementService->getFuturesList()
+            )
         ]);
     }
 

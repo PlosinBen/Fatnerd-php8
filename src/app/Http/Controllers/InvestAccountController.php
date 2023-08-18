@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InvestAccountStoreRequest;
+use App\Http\Resources\InvestStatementFuturesResource;
 use App\Service\InvestService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

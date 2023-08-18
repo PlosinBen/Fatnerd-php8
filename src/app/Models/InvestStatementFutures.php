@@ -3,11 +3,27 @@
 namespace App\Models;
 
 use App\Contracts\ModelPeriodTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property-read int $id
+ * @property-read string $group
+ * @property-read Carbon $period
+ * @property-read numeric $commitment
+ * @property-read numeric $open_profit
+ * @property-read numeric $write_off_profit
+ * @property-read numeric $deposit
+ * @property-read numeric $withdraw
+ * @property-read numeric $real_commitment
+ * @property-read numeric $commitment_profit
+ * @property-read numeric $profit
+ */
 class InvestStatementFutures extends Model
 {
     use ModelPeriodTrait;
+
+    const ID = 'id';
 
     const GROUP = 'group';
 
