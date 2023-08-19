@@ -10,9 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('invest_profit_distribute', function (Blueprint $table) {
+        Schema::create('statement_distribute', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invest_profit_period');
+            $table->unsignedBigInteger('statement_period');
             $table->unsignedBigInteger('invest_account_id');
 
             $table->unsignedDecimal('commitment', 12)
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->datetime('updated_at');
             $table->datetime('created_at');
 
-            $table->unique(['invest_profit_period', 'invest_account_id'], 'invest_profit_distribute_period_account_id_unique');
+            $table->unique(['statement_period', 'invest_account_id'], 'invest_profit_distribute_period_account_id_unique');
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('invest_profit_distribute');
+        Schema::dropIfExists('statement_distribute');
     }
 };

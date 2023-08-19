@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\StatementFutures;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +11,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('invest_statement_futures', function (Blueprint $table) {
+        Schema::create('statement_futures', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedMediumInteger('period');
@@ -20,15 +21,16 @@ return new class extends Migration {
                 ->comment('期末權益');
             $table->decimal('open_profit', 12)
                 ->comment('未平倉損益');
-            $table->decimal('write_off_profit', 12)
+            $table->decimal('close_profit', 12)
+                ->nullable()
                 ->comment('沖銷損益');
             $table->unsignedDecimal('deposit', 12)
                 ->comment('入金');
             $table->unsignedDecimal('withdraw', 12)
-                ->comment('出金');
-            $table->unsignedDecimal('real_commitment', 12)
-                ->default(0)
+                ->comment('出金')
                 ->comment('實質權益(權益數-未平倉損益-出入金淨額[入金-出金])');
+            $table->unsignedDecimal('real_commitment', 12)
+                ->default(0);
             $table->decimal('commitment_profit', 12)
                 ->default(0)
                 ->comment('權益損益');
@@ -48,6 +50,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('invest_statement_futures');
+        Schema::dropIfExists('statement_futures');
     }
 };

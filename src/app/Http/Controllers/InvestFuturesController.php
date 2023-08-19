@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvestFuturesStoreRequest;
 use App\Http\Resources\InvestStatementFuturesResource;
-use App\Service\StatementService;
+use App\Service\Statement\Asset\FuturesService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class InvestFuturesController
 {
-    public function index(StatementService $statementService)
+    public function index(FuturesService $futuresService)
     {
         return Inertia::render('InvestFutures/Index', [
             'futuresPaginatedList' => InvestStatementFuturesResource::collection(
-                $statementService->getFuturesList()
+                $futuresService->getList()
             )
         ]);
     }
@@ -25,9 +25,9 @@ class InvestFuturesController
         return Inertia::render('InvestFutures/Create');
     }
 
-    public function store(InvestFuturesStoreRequest $investFuturesStoreRequest, StatementService $statementService)
+    public function store(InvestFuturesStoreRequest $investFuturesStoreRequest, FuturesService $futuresService)
     {
-        $statementService->createFutures(
+        $futuresService->create(
             $investFuturesStoreRequest->group,
             Carbon::parse($investFuturesStoreRequest->period),
             $investFuturesStoreRequest->commitment,

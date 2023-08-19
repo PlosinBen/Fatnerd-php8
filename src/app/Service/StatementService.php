@@ -2,42 +2,23 @@
 
 namespace App\Service;
 
-use App\Models\InvestStatementFutures;
-use App\Repository\InvestStatementFuturesRepository;
+use App\Contracts\InstanceTrait;
+use App\Models\Statement;
+use App\Repository\StatementAssetRepository;
+use App\Repository\StatementRepository;
 use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class StatementService
 {
-    public function getFuturesList(): LengthAwarePaginator
+    use InstanceTrait;
+
+    public function refresh(Carbon $period): Statement
     {
-        $investStatementFuturesRepository = InvestStatementFuturesRepository::make();
-
-        return $investStatementFuturesRepository->fetchList();
-    }
-
-    /**
-     * @param string $group
-     * @param Carbon $period
-     * @param int|float $commitment
-     * @param int|float $openProfit
-     * @param int|float $writeOffProfit
-     * @param int|float $deposit
-     * @param int|float $withdraw
-     * @return InvestStatementFutures
-     */
-    public function createFutures(string $group, Carbon $period, int|float $commitment, int|float $openProfit, int|float $writeOffProfit, int|float $deposit, int|float $withdraw)
-    {
-        $investStatementFuturesRepository = InvestStatementFuturesRepository::make();
-
-        return $investStatementFuturesRepository->insert(
-            $group,
+        return StatementRepository::make()->update(
             $period,
-            $commitment,
-            $openProfit,
-            $writeOffProfit,
-            $deposit,
-            $withdraw
+            0,
+            0,
+            StatementAssetRepository::make()->fetchProfit($period)
         );
     }
 }

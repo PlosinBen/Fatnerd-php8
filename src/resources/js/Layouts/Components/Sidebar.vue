@@ -16,7 +16,7 @@ import {Link} from "@inertiajs/vue3";
                 <li>4</li>
             </ul>
 
-            <h5>投資管理</h5>
+            <h5>對帳單</h5>
             <ul>
                 <li>
                     <Link :href="route('invest.account.index')">投資帳號</Link>
@@ -26,9 +26,6 @@ import {Link} from "@inertiajs/vue3";
                 </li>
                 <li>
                     <Link :href="route('invest.futures.index')">期貨對帳單</Link>
-                </li>
-                <li>
-                    海期對帳單
                 </li>
             </ul>
 
