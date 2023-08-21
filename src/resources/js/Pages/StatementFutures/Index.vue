@@ -13,7 +13,7 @@ defineOptions({layout: Basic})
 <template>
     {{ futuresPaginatedList }}
     <div>
-        <Link class="button-green" :href="route('invest.futures.create')">新增對帳單</Link>
+        <Link class="button-green" :href="route('statement.futures.create')">新增對帳單</Link>
     </div>
 </template>
 

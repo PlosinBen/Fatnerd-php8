@@ -10,19 +10,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('invest_detail', function (Blueprint $table) {
+        Schema::create('invest_history', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('invest_account_id');
             $table->date('deal_at')
                 ->comment('交易日');
             $table->unsignedTinyInteger('increment')
                 ->comment('序號');
-            $table->enum('type', [
-                'deposit',
-                'withdraw',
-                'profit',
-                'expense',
-            ])
+            $table->enum('type',
+                array_keys(
+                    config('invest.type')
+                )
+            )
                 ->comment('類型');
             $table->unsignedDecimal('amount', 12)
                 ->comment('金額');
@@ -41,6 +40,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('invest_detail');
+        Schema::dropIfExists('invest_history');
     }
 };

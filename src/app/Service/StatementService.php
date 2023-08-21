@@ -12,6 +12,11 @@ class StatementService
 {
     use InstanceTrait;
 
+    public function getList()
+    {
+        return StatementRepository::make()->fetch();
+    }
+
     public function refresh(Carbon $period): Statement
     {
         return StatementRepository::make()->update(

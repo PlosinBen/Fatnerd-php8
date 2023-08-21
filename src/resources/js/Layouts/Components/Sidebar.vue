@@ -16,16 +16,23 @@ import {Link} from "@inertiajs/vue3";
                 <li>4</li>
             </ul>
 
-            <h5>對帳單</h5>
+            <h5>投資管理</h5>
             <ul>
                 <li>
                     <Link :href="route('invest.account.index')">投資帳號</Link>
                 </li>
                 <li>
-                    分配明細
+                    <Link :href="route('invest_admin.history.index')">帳務明細</Link>
+                </li>
+            </ul>
+
+            <h5>對帳單</h5>
+            <ul>
+                <li>
+                    <Link :href="route('statement.index')">對帳單總表</Link>
                 </li>
                 <li>
-                    <Link :href="route('invest.futures.index')">期貨對帳單</Link>
+                    <Link :href="route('statement.futures.index')">期貨對帳單</Link>
                 </li>
             </ul>
 
@@ -48,17 +55,13 @@ aside {
         h5 {
             @apply mt-3 mb-1 text-slate-200 font-semibold;
         }
-
-        li {
-            @apply py-1 pl-4 border-l border-gray-700;
-        }
     }
 
     a {
-        @apply inline-block w-full;
+        @apply inline-block py-1 pl-4 w-full border-l border-gray-700;
 
         &:hover {
-            @apply text-gray-300 border-gray-300;
+            @apply text-sky-300 border-sky-300;
         }
     }
 }

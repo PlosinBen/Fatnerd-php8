@@ -7,10 +7,16 @@ use App\Contracts\Repository;
 use App\lib\Decimal;
 use App\Models\Statement;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class StatementRepository extends Repository
 {
     use InstanceTrait;
+
+    public function fetch(): LengthAwarePaginator
+    {
+        return Statement::orderBy(Statement::PERIOD, 'desc')->paginate(20);
+    }
 
     public function create(Carbon $period): Statement
     {

@@ -13,7 +13,7 @@ class InvestFuturesController
 {
     public function index(FuturesService $futuresService)
     {
-        return Inertia::render('InvestFutures/Index', [
+        return Inertia::render('StatementFutures/Index', [
             'futuresPaginatedList' => InvestStatementFuturesResource::collection(
                 $futuresService->getList()
             )
@@ -22,7 +22,7 @@ class InvestFuturesController
 
     public function create()
     {
-        return Inertia::render('InvestFutures/Create');
+        return Inertia::render('StatementFutures/Create');
     }
 
     public function store(InvestFuturesStoreRequest $investFuturesStoreRequest, FuturesService $futuresService)

@@ -14,6 +14,6 @@ class StatementResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return array_merge(parent::toArray($request));
     }
 }
