@@ -24,7 +24,9 @@ defineOptions({layout: Basic})
 
 <template>
     <section class="mb-4">
-        {{ accountPaginatedList }}
+        <template v-for="acc in accountPaginatedList.data">
+            <div>{{ acc }}</div>
+        </template>
     </section>
     <section class="w-full max-w-md">
         <h5>新增投資帳號</h5>

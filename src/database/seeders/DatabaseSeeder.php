@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Service\InvestService;
 use App\Service\Statement\Asset\FuturesService;
 use App\Service\Statement\AssetService;
 use Carbon\Carbon;
@@ -23,7 +24,21 @@ class DatabaseSeeder extends Seeder
             'password' => password_hash('12345', PASSWORD_DEFAULT)
         ]);
 
+        $this->createInvestAccount();
         $this->createFutures();
+    }
+
+    protected function createInvestAccount()
+    {
+        collect([
+            'B',
+            'A',
+            'Wu',
+            '熊',
+            'Emma',
+            'Allie',
+            '金'
+        ])->each(fn($alias) => InvestService::make()->createAccount($alias));
     }
 
     protected function createFutures()

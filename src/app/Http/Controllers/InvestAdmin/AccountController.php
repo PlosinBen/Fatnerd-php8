@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\InvestAdmin;
 
 use App\Http\Requests\InvestAccountStoreRequest;
 use App\Service\InvestService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class InvestAccountController
+class AccountController
 {
     public function index(InvestService $investService)
     {
-        return Inertia::render('InvestAccount/Index', [
+        return Inertia::render('InvestAdmin/Account/Index', [
             'accountPaginatedList' => $investService->getAccountList()
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('InvestAccount/Create');
+        return Inertia::render('InvestAdmin/Account/Create');
     }
 
     public function store(InvestAccountStoreRequest $investAccountStoreRequest, InvestService $investService)

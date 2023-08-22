@@ -21,7 +21,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\IndexController::class, 'index'])->name('index');
 
     Route::prefix('invest')->as('invest.')->group(function () {
-        Route::resource('account', \App\Http\Controllers\InvestAccountController::class)
+        Route::resource('account', \App\Http\Controllers\InvestAdmin\AccountController::class)
             ->only('index', 'store');
     });
 

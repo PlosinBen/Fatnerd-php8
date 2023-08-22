@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->date('deal_at')
                 ->comment('交易日');
             $table->unsignedTinyInteger('increment')
+                ->default(0)
                 ->comment('序號');
             $table->enum('type',
                 array_keys(
@@ -23,10 +24,15 @@ return new class extends Migration {
                 )
             )
                 ->comment('類型');
-            $table->unsignedDecimal('amount', 12)
+            $table->decimal('amount', 12)
                 ->comment('金額');
             $table->unsignedDecimal('balance', 12)
+                ->default(0)
                 ->comment('結餘');
+
+            $table->string('note')
+                ->default('')
+                ->comment('備註');
 
             $table->datetime('updated_at');
             $table->datetime('created_at');

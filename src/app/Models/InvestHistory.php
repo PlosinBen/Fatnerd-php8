@@ -2,8 +2,18 @@
 
 namespace App\Models;
 
+use App\lib\Decimal;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $invest_account_id
+ *
+ * @property string $type
+ * @property Decimal $amount
+ * @property Decimal $balance
+ * @property string $note
+ */
 class InvestHistory extends Model
 {
     const ID = 'id';
@@ -20,5 +30,9 @@ class InvestHistory extends Model
 
     const BALANCE = 'balance';
 
+    const NOTE = 'note';
+
     protected $table = 'invest_history';
+
+    protected $guarded = [];
 }
