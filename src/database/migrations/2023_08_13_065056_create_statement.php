@@ -17,13 +17,13 @@ return new class extends Migration {
             $table->unsignedDecimal('commitment', 12)
                 ->default(0)
                 ->comment('總權益');
-            $table->unsignedInteger('weight')
+            $table->unsignedDecimal('weight', 12, 1)
                 ->default(0)
                 ->comment('總權重');
             $table->decimal('profit', 12)
                 ->default(0)
                 ->comment('總損益');
-            $table->unsignedDecimal('profit_per_weight', 12)
+            $table->decimal('profit_per_weight', 12)
                 ->default(0)
                 ->comment('每權重損益');
             $table->dateTime('distribute_at')

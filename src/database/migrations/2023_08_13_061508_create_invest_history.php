@@ -26,7 +26,7 @@ return new class extends Migration {
                 ->comment('類型');
             $table->decimal('amount', 12)
                 ->comment('金額');
-            $table->unsignedDecimal('balance', 12)
+            $table->decimal('balance', 12)
                 ->default(0)
                 ->comment('結餘');
 

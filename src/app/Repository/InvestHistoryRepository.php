@@ -24,24 +24,71 @@ class InvestHistoryRepository extends Repository
             ->get();
     }
 
-    public function updateIncrement(int $id, int $increment)
+    public function fetchByAccountIdAfterDate(int $accountId, Carbon $dealAt): Collection
     {
-        InvestHistory::where(InvestHistory::ID, $id)->update([
+        return InvestHistory::where(InvestHistory::INVEST_ACCOUNT_ID, $accountId)
+            ->where(InvestHistory::DEAL_AT, '>=', $dealAt->toDateString())
+            ->orderBy(InvestHistory::DEAL_AT, 'ASC')
+            ->orderBy(InvestHistory::INCREMENT, 'ASC')
+            ->get();
+    }
+
+    public function fetchDealBetween(int $accountId, Carbon $startAt, Carbon $endAt): Collection
+    {
+        return InvestHistory::where(InvestHistory::INVEST_ACCOUNT_ID, $accountId)
+            ->whereBetween(InvestHistory::DEAL_AT, [$startAt, $endAt])
+            ->get();
+    }
+
+    public function fetchAccountLastBalance(int $accountId, string $date): Decimal
+    {
+        $entity = InvestHistory::where(InvestHistory::INVEST_ACCOUNT_ID, $accountId)
+            ->where(InvestHistory::DEAL_AT, '<', $date)
+            ->orderBy(InvestHistory::DEAL_AT, 'DESC')
+            ->first();
+
+        return Decimal::make(
+            optional($entity)->balance
+        );
+    }
+
+    public function updateIncrement(InvestHistory $entity, int $increment)
+    {
+        $entity->update([
             InvestHistory::INCREMENT => $increment
+        ]);
+
+//        InvestHistory::where(InvestHistory::ID, $id)->update([
+//            InvestHistory::INCREMENT => $increment
+//        ]);
+    }
+
+    public function updateIncrementBalance(InvestHistory $entity, int $increment, string $balance)
+    {
+        $entity->update([
+            InvestHistory::INCREMENT => $increment,
+            InvestHistory::BALANCE => $balance
+        ]);
+    }
+
+    public function updateBalance(InvestHistory $entity, Decimal $balance)
+    {
+        $entity->update([
+            InvestHistory::BALANCE => $balance
         ]);
     }
 
     public function create(
-        InvestAccount|int        $investAccount,
-        Carbon                   $dealAt,
-        string                   $type,
-        float|Decimal|int|string $amount,
-        string                   $note
+        int    $investAccount,
+        string $dealAt,
+        string $type,
+        string $amount,
+        string $note
     ): InvestHistory
     {
         return InvestHistory::create([
-            InvestHistory::INVEST_ACCOUNT_ID => $investAccount instanceof InvestAccount ? $investAccount->id : $investAccount,
-            InvestHistory::DEAL_AT => $dealAt->toDateString(),
+            InvestHistory::INVEST_ACCOUNT_ID => $investAccount,
+            InvestHistory::DEAL_AT => $dealAt,
             InvestHistory::TYPE => $type,
             InvestHistory::AMOUNT => $amount,
             InvestHistory::NOTE => $note

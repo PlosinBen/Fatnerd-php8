@@ -17,7 +17,7 @@ class StatementAssetRepository extends Repository
     ): StatementAsset
     {
         return StatementAsset::firstOrCreate([
-            StatementAsset::PERIOD => $period,
+            StatementAsset::PERIOD => $period->format('Ym'),
             StatementAsset::ASSET_TYPE => $assetType
         ], [
             StatementAsset::BASE_PROFIT => $baseProfit,
@@ -28,9 +28,10 @@ class StatementAssetRepository extends Repository
     public function fetchProfit(Carbon $period): Decimal
     {
         return Decimal::make(0)->add(
-            ...StatementAsset::where(StatementAsset::PERIOD, $period->format('Ym'))
-            ->get()
-            ->pluck(StatementAsset::PROFIT)
+            ...
+            StatementAsset::where(StatementAsset::PERIOD, $period->format('Ym'))
+                ->get()
+                ->pluck(StatementAsset::PROFIT)
         );
     }
 }

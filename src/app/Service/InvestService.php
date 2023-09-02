@@ -3,11 +3,15 @@
 namespace App\Service;
 
 use App\Contracts\InstanceTrait;
+use App\DataMapper\CalculateMonthlyBalance;
 use App\lib\Decimal;
 use App\Models\InvestAccount;
 use App\Models\InvestHistory;
+use App\Models\InvestMonthlyBalance;
+use App\Module\InvestModule;
 use App\Repository\InvestAccountRepository;
 use App\Repository\InvestHistoryRepository;
+use App\Repository\InvestMonthlyBalanceRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -18,6 +22,13 @@ class InvestService
     public function getAccounts(array $filter = []): Collection
     {
         return InvestAccountRepository::make()->fetch($filter);
+    }
+
+    public function getAccountLastBalance(InvestAccount|int $investAccount, Carbon $dealAt = null): Decimal
+    {
+        return InvestHistoryRepository::make()->fetchAccountLastBalance(
+            optional($investAccount)->id ?? $investAccount, $dealAt
+        );
     }
 
     public function getPagingAccounts()
@@ -36,7 +47,7 @@ class InvestService
     {
         $investAccountRepository = InvestAccountRepository::make();
 
-        return $investAccountRepository->insert($alias);
+        return $investAccountRepository->insert($alias, Carbon::now());
     }
 
     public function getHistoryList(array $filter)
@@ -44,36 +55,48 @@ class InvestService
         return InvestHistoryRepository::make()->fetch($filter);
     }
 
-    public function addHistory(InvestAccount|int $investAccount, Carbon $dealAt, string $type, float|int|string|Decimal $amount, ?string $note): InvestHistory
+    public function addHistory(
+        InvestAccount|int        $investAccount,
+        Carbon                   $dealAt,
+        string                   $type,
+        float|int|string|Decimal $amount,
+        string                   $note = '')
     {
-        $entity = InvestHistoryRepository::make()->create(
-            $investAccount,
-            $dealAt,
-            $type,
-            $amount,
-            $note ?? ''
-        );
+        $accountId = optional($investAccount)->id ?? $investAccount;
 
-        $this->resetHistoryIncrement($entity->invest_account_id, $dealAt);
-
-        return $entity->refresh();
+        InvestModule::make()
+            ->addHistory(
+                $accountId,
+                $dealAt,
+                $type,
+                Decimal::make($amount),
+                $note
+            )
+            ->calcHistoryBalance($accountId, $dealAt)
+            ->calcMonthBalance($accountId, $dealAt);
     }
 
-    public function resetHistoryIncrement(int $investAccount, Carbon $dealAt)
+    public function calcMonthBalance(InvestAccount|int $investAccount, Carbon $period): self
     {
-        $investHistoryRepository = InvestHistoryRepository::make();
+        $accountId = optional($investAccount)->id ?? $investAccount;
 
-        $investHistoryRepository->fetchByAccountIdDealDate($investAccount, $dealAt)
-            ->sortBy(function (InvestHistory $investHistory) {
-                return match ($investHistory->type) {
-                    'profit' => 100,
-                    'expense' => 200,
-                    default => 1,
-                };
-            }, SORT_NUMERIC)
-            ->values()
-            ->each(
-                fn(InvestHistory $investHistory, $index) => $investHistoryRepository->updateIncrement($investHistory->id, $index)
-            );
+        InvestModule::make()->calcMonthBalance($accountId, $period);
+
+        return $this;
+    }
+
+    public function getMonthlyBalance(InvestAccount|int $investAccount, Carbon $period)
+    {
+        $accountId = optional($investAccount)->id ?? $investAccount;
+
+        $entity = InvestModule::make()->getMonthlyBalanceRecord($accountId, $period);
+
+        if ($entity === null) {
+            $entity = InvestModule::make()
+                ->calcMonthBalance($accountId, $period)
+                ->getMonthlyBalanceRecord($accountId, $period);
+        }
+
+        return $entity;
     }
 }

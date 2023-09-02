@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository;
 use App\Models\InvestAccount;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -21,10 +22,11 @@ class InvestAccountRepository extends Repository
         return InvestAccount::orderBy(InvestAccount::ID)->paginate(20);
     }
 
-    public function insert(string $alias): InvestAccount
+    public function insert(string $alias, Carbon $startPeriod): InvestAccount
     {
         return InvestAccount::create([
-            InvestAccount::ALIAS => $alias
+            InvestAccount::ALIAS => $alias,
+            InvestAccount::START_PERIOD => $startPeriod
         ]);
     }
 }

@@ -3,10 +3,13 @@
 namespace App\Contracts;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 trait ModelPeriodTrait
 {
+    use ModelYearMonthAttributeTrait;
+
     protected function periodCarbon(): Attribute
     {
         return Attribute::make(
@@ -16,9 +19,11 @@ trait ModelPeriodTrait
 
     protected function period(): Attribute
     {
-        return Attribute::make(
-            get: fn($period) => (string)$period,
-            set: fn(string|int|Carbon $period) => $period instanceof Carbon ? $period->format('Ym') : $period,
-        );
+        return $this->yearMonthAttribute();
+    }
+
+    public function scopePeriod(Builder $query, Carbon $period): void
+    {
+        $query->where('period', $period->format('Ym'));
     }
 }

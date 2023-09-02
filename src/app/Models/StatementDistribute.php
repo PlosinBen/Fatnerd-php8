@@ -4,24 +4,30 @@ namespace App\Models;
 
 use App\Contracts\ModelDecimalAttributeTrait;
 use App\Contracts\ModelPeriodTrait;
+use App\Contracts\ModelYearMonthAttributeTrait;
 use App\lib\Decimal;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property Carbon $period
+ * @property int $id
+ *
+ * @property int $invest_account_id
+ * @property Carbon $statement_period
  * @property Decimal $commitment
  * @property int $weight
  * @property Decimal $profit
- * @property Decimal $profit_per_weight
- * @property Carbon $distribute_at
  */
-class Statement extends Model
+class StatementDistribute extends Model
 {
-    use ModelPeriodTrait, ModelDecimalAttributeTrait;
+    use ModelYearMonthAttributeTrait, ModelDecimalAttributeTrait;
 
-    const PERIOD = 'period';
+    const ID = 'id';
+
+    const STATEMENT_PERIOD = 'statement_period';
+
+    const INVEST_ACCOUNT_ID = 'invest_account_id';
 
     const COMMITMENT = 'commitment';
 
@@ -29,15 +35,7 @@ class Statement extends Model
 
     const PROFIT = 'profit';
 
-    const PROFIT_PER_WEIGHT = 'profit_per_weight';
-
-    const DISTRIBUTE_AT = 'distribute_at';
-
-    protected $table = 'statement';
-
-    protected $primaryKey = 'period';
-
-    public $incrementing = false;
+    protected $table = 'statement_distribute';
 
     protected function commitment(): Attribute
     {
@@ -45,11 +43,6 @@ class Statement extends Model
     }
 
     protected function profit(): Attribute
-    {
-        return $this->decimalAttribute();
-    }
-
-    protected function profitPerWeight(): Attribute
     {
         return $this->decimalAttribute();
     }

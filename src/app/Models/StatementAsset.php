@@ -3,8 +3,14 @@
 namespace App\Models;
 
 use App\Contracts\ModelPeriodTrait;
+use App\lib\Decimal;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property $period
+ * @property string $asset_type
+ * @property Decimal $profit
+ */
 class StatementAsset extends Model
 {
     use ModelPeriodTrait;

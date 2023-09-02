@@ -25,8 +25,10 @@ return new class extends Migration {
                 ->nullable()
                 ->comment('沖銷損益');
             $table->unsignedDecimal('deposit', 12)
+                ->default(0)
                 ->comment('入金');
             $table->unsignedDecimal('withdraw', 12)
+                ->default(0)
                 ->comment('出金')
                 ->comment('實質權益(權益數-未平倉損益-出入金淨額[入金-出金])');
             $table->unsignedDecimal('real_commitment', 12)

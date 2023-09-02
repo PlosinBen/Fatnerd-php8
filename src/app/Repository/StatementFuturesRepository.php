@@ -43,9 +43,10 @@ class StatementFuturesRepository extends Repository
         string|int|float|Decimal $profit
     ): StatementFutures
     {
-        return StatementFutures::create([
+        return StatementFutures::updateOrCreate([
             StatementFutures::GROUP => $group,
-            StatementFutures::PERIOD => $period,
+            StatementFutures::PERIOD => $period->format('Ym')
+        ], [
             StatementFutures::COMMITMENT => $commitment,
             StatementFutures::OPEN_PROFIT => $openProfit,
             StatementFutures::CLOSE_PROFIT => $closeProfit,

@@ -17,9 +17,10 @@ return new class extends Migration {
 
             $table->unsignedDecimal('commitment', 12)
                 ->comment('計算分配權益');
-            $table->unsignedMediumInteger('weight')
+            $table->unsignedDecimal('weight', 12, 1)
                 ->comment('權重');
-            $table->unsignedDecimal('profit', 12)
+            $table->decimal('profit', 12)
+                ->default(0)
                 ->comment('分配損益');
 
             $table->datetime('updated_at');

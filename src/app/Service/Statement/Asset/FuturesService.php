@@ -19,13 +19,13 @@ class FuturesService
     }
 
     public function create(
-        string $group,
-        Carbon $period,
-        int|float $commitment,
-        int|float $openProfit,
+        string         $group,
+        Carbon         $period,
+        int|float      $commitment,
+        int|float      $openProfit,
         int|float|null $closeProfit = null,
-        int|float $deposit = 0,
-        int|float $withdraw = 0
+        int|float      $deposit = 0,
+        int|float      $withdraw = 0
     )
     {
         $investStatementFuturesRepository = StatementFuturesRepository::make();

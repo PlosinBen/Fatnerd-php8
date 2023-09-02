@@ -13,17 +13,40 @@ return new class extends Migration {
         Schema::create('invest_monthly_balance', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('invest_account_id');
-            $table->unsignedSmallInteger('year_month');
-            $table->unsignedDecimal('deposit', 12);
-            $table->unsignedDecimal('withdraw', 12);
-            $table->unsignedDecimal('profit', 12);
-            $table->unsignedDecimal('expense', 12);
-            $table->unsignedDecimal('balance', 12);
+            $table->unsignedMediumInteger('period');
+
+            $table->decimal('deposit', 12)
+                ->default(0)
+                ->comment('入金');
+            $table->decimal('transfer', 12)
+                ->default(0)
+                ->comment('出金轉存');
+            $table->decimal('withdraw', 12)
+                ->default(0)
+                ->comment('出金');
+
+//            $table->decimal('commitment')
+//                ->default(0)
+//                ->comment('可分配權益');
+//            $table->unsignedInteger('weight')
+//                ->default(0)
+//                ->comment('權重');
+
+            $table->decimal('profit', 12)
+                ->default(0)
+                ->comment('損益分配');
+            $table->decimal('expense', 12)
+                ->default(0)
+                ->comment('費用');
+
+            $table->decimal('balance', 12)
+                ->default(0)
+                ->comment('結餘');
 
             $table->datetime('updated_at');
             $table->datetime('created_at');
 
-            $table->unique(['invest_account_id', 'year_month']);
+            $table->unique(['invest_account_id', 'period']);
         });
     }
 

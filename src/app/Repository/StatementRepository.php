@@ -18,28 +18,30 @@ class StatementRepository extends Repository
         return Statement::orderBy(Statement::PERIOD, 'desc')->paginate(20);
     }
 
-    public function create(Carbon $period): Statement
+    public function create(string $period): Statement
     {
         return Statement::firstOrCreate([Statement::PERIOD => $period]);
     }
 
     public function update(
         Carbon                   $period,
-        string|int|float|Decimal $commitment,
-        int|float                $weight,
-        string|int|float|Decimal $profit
+        string $commitment = null,
+        string        $weight = null,
+        string $profit = null,
+        string                  $profitPerWeight = null
     ): Statement
     {
+
         return Statement::updateOrCreate(
             [
-                Statement::PERIOD => $period
+                Statement::PERIOD => $period->format('Ym')
             ],
-            [
+            array_filter([
                 Statement::COMMITMENT => $commitment,
                 Statement::WEIGHT => $weight,
                 Statement::PROFIT => $profit,
-                Statement::PROFIT_PER_WEIGHT => Decimal::make($profit)->div($profit)
-            ]
+                Statement::PROFIT_PER_WEIGHT => $profitPerWeight,
+            ])
         );
     }
 }
