@@ -72,4 +72,11 @@ class InvestAccount extends Model
     {
         return $this->hasMany(InvestMonthlyBalance::class);
     }
+
+    /** Relations */
+
+    public function investMonthlyBalance(): HasMany
+    {
+        return $this->hasMany(InvestMonthlyBalance::class, InvestMonthlyBalance::INVEST_ACCOUNT_ID, self::ID);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataMapper;
+namespace App\DataCalculator;
 
 use App\lib\Decimal;
 use App\Models\InvestHistory;
@@ -64,12 +64,19 @@ class CalculateMonthlyBalance
         return $this->preBalance
             ->add(
                 $this->deposit,
+                $this->withdraw,
                 $this->transfer,
                 $this->profit,
                 $this->expense
-            )
-            ->sub(
-                $this->withdraw
+            );
+    }
+
+    public function commitment()
+    {
+        return $this->preBalance
+            ->add(
+                $this->withdraw,
+                $this->transfer
             );
     }
 }

@@ -9,6 +9,7 @@ use App\Service\InvestService;
 use App\Service\MixedEvent\StatementDistribute;
 use App\Service\Statement\Asset\FuturesService;
 use App\Service\Statement\AssetService;
+use App\Service\StatementService;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -78,6 +79,7 @@ class DatabaseSeeder extends Seeder
          * @var FuturesService $futuresService
          */
         $futuresService = app()->make(FuturesService::class);
+        $investService = InvestService::make();
 
         /**
          * @var StatementDistribute $statementDistribute
@@ -140,7 +142,7 @@ class DatabaseSeeder extends Seeder
             ['2022-04', 2792552, 550, 114650, 5000],
             ['2022-05', 2913539, 208150, -86272, 5000],
         ])
-            ->each(function ($data) use ($futuresService, $statementDistribute) {
+            ->each(function ($data) use ($futuresService, $investService, $statementDistribute) {
                 $period = Carbon::createFromFormat('Y-m', $data[0])->lastOfMonth();
 
                 $futuresService->create(
@@ -152,6 +154,8 @@ class DatabaseSeeder extends Seeder
                     deposit: $data[4] ?? 0,
                     withdraw: $data[5] ?? 0
                 );
+
+                $investService->newPeriodMonthlyBalance($period);
 
                 $statementDistribute->execute($period);
             });

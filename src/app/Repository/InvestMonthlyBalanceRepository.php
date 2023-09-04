@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Contracts\Repository;
 use App\Models\InvestMonthlyBalance;
+use Illuminate\Database\Eloquent\Collection;
 
 class InvestMonthlyBalanceRepository extends Repository
 {
@@ -40,5 +41,18 @@ class InvestMonthlyBalanceRepository extends Repository
             InvestMonthlyBalance::EXPENSE => $expense,
             InvestMonthlyBalance::BALANCE => $balance
         ]));
+    }
+
+    public function fetchByPeriod(string $period): Collection
+    {
+        return InvestMonthlyBalance::where(InvestMonthlyBalance::PERIOD, $period)->get();
+    }
+
+    public function fetchLast(int $accountId, string $period)
+    {
+        return InvestMonthlyBalance::where(InvestMonthlyBalance::INVEST_ACCOUNT_ID, $accountId)
+            ->where(InvestMonthlyBalance::PERIOD, '<=', $period)
+            ->orderBy(InvestMonthlyBalance::PERIOD, 'DESC')
+            ->first();
     }
 }

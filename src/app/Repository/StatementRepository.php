@@ -24,11 +24,11 @@ class StatementRepository extends Repository
     }
 
     public function update(
-        Carbon                   $period,
+        Carbon $period,
         string $commitment = null,
-        string        $weight = null,
-        string $profit = null,
-        string                  $profitPerWeight = null
+        string $weight = null,
+        string $profitPerWeight = null,
+        string $profit = null
     ): Statement
     {
 

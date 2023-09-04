@@ -6,6 +6,7 @@ use App\Contracts\InstanceTrait;
 use App\lib\Decimal;
 use App\Models\InvestAccount;
 use App\Models\Statement;
+use App\Models\StatementAsset;
 use App\Models\StatementDistribute;
 use App\Repository\InvestMonthlyBalanceRepository;
 use App\Repository\StatementAssetRepository;
@@ -35,13 +36,35 @@ class StatementService
         );
     }
 
-    public function updateCommitmentWeight(Carbon $period, Decimal $commitment, Decimal $weight, Decimal $profitPerWeight): Statement
+    public function updateCommitmentWeightProfit(Carbon $period, Decimal $commitment, Decimal $weight): Statement
     {
+        $profit = StatementAssetRepository::make()
+            ->fetchByPeriod($period->format('Ym'))
+            ->reduce(fn(Decimal $carry, StatementAsset $asset) => $carry->add($asset->profit), Decimal::make());
+
         return StatementRepository::make()->update(
             period: $period,
             commitment: $commitment,
             weight: $weight,
-            profitPerWeight: $profitPerWeight
+            profitPerWeight: $profit->div($weight)->floor(),
+            profit: $profit
+        );
+    }
+
+    public function setDistribute(
+        Carbon            $period,
+        InvestAccount|int $investAccount,
+        Decimal           $commitment,
+        Decimal           $weight,
+        Decimal           $profit
+    ): StatementDistribute
+    {
+        return StatementDistributeRepository::make()->update(
+            statementPeriod: $period->format('Ym'),
+            investAccountId: optional($investAccount)->id ?? $investAccount,
+            commitment: $commitment,
+            weight: $weight,
+            profit: $profit
         );
     }
 
